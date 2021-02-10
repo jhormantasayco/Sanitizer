@@ -1,19 +1,10 @@
 # WAAVI Sanitizer
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/waavi/sanitizer.svg?style=flat-square)](https://packagist.org/packages/waavi/sanitizer)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/waavi/sanitizer/master.svg?style=flat-square)](https://travis-ci.org/waavi/sanitizer)
-[![Total Downloads](https://img.shields.io/packagist/dt/waavi/sanitizer.svg?style=flat-square)](https://packagist.org/packages/waavi/sanitizer)
-
-## About WAAVI
-
-WAAVI is a Spanish web development and product consulting agency, working with Startups and other online businesses since 2013. Need to get work done in Laravel or PHP? Contact us through [waavi.com](http://waavi.com/en/contactanos).
-
 ## Introduction
 
 WAAVI Sanitizer provides an easy way to format user input, both through the provided filters or through custom ones that can easily be added to the sanitizer library.
 
-Although not limited to Laravel 5 users, there are some extensions provided for this framework, like a way to easily Sanitize user input through a custom FormRequest and easier extensibility.
+Although not limited to Laravel 5, 6, 7, 8 users, there are some extensions provided for this framework, like a way to easily Sanitize user input through a custom FormRequest and easier extensibility.
 
 ## Example
 
@@ -21,15 +12,15 @@ Given a data array with the following format:
 
 ```php
     $data = [
-        'first_name'    =>  'john',
-        'last_name'     =>  '<strong>DOE</strong>',
-        'email'         =>  '  JOHn@DoE.com',
-        'birthdate'     =>  '06/25/1980',
-        'jsonVar'       =>  '{"name":"value"}',
-        'description'   =>  '<p>Test paragraph.</p><!-- Comment --> <a href="#fragment">Other text</a>',
-        'phone'         =>  '+08(096)90-123-45q',
-        'country'       =>  'GB',
-        'postcode'      =>  'ab12 3de',
+        'first_name'  =>  'john',
+        'last_name'   =>  '<strong>DOE</strong>',
+        'email'       =>  '  JOHn@DoE.com',
+        'birthdate'   =>  '06/25/1980',
+        'jsonVar'     =>  '{"name":"value"}',
+        'description' =>  '<p>Test paragraph.</p><!-- Comment --> <a href="#fragment">Other text</a>',
+        'phone'       =>  '+08(096)90-123-45q',
+        'country'     =>  'GB',
+        'postcode'    =>  'ab12 3de',
     ];
 ```
 We can easily format it using our Sanitizer and the some of Sanitizer's default filters:
@@ -37,15 +28,15 @@ We can easily format it using our Sanitizer and the some of Sanitizer's default 
     use \Waavi\Sanitizer\Sanitizer;
 
     $filters = [
-        'first_name'    =>  'trim|escape|capitalize',
-        'last_name'     =>  'trim|escape|capitalize',
-        'email'         =>  'trim|escape|lowercase',
-        'birthdate'     =>  'trim|format_date:m/d/Y, Y-m-d',
-        'jsonVar'       =>  'cast:array',
-        'description'   =>  'strip_tags',
-        'phone'         =>  'digit',
-        'country'       =>  'trim|escape|capitalize',
-        'postcode'      =>  'trim|escape|uppercase|filter_if:country,GB',
+        'first_name'  =>  'trim|escape|capitalize',
+        'last_name'   =>  'trim|escape|capitalize',
+        'email'       =>  'trim|escape|lowercase',
+        'birthdate'   =>  'trim|format_date:m/d/Y, Y-m-d',
+        'jsonVar'     =>  'cast:array',
+        'description' =>  'strip_tags',
+        'phone'       =>  'digit',
+        'country'     =>  'trim|escape|capitalize',
+        'postcode'    =>  'trim|escape|uppercase|filter_if:country,GB',
     ];
 
     $sanitizer  = new Sanitizer($data, $filters);
@@ -55,15 +46,15 @@ We can easily format it using our Sanitizer and the some of Sanitizer's default 
 Which will yield:
 ```php
     [
-        'first_name'    =>  'John',
-        'last_name'     =>  'Doe',
-        'email'         =>  'john@doe.com',
-        'birthdate'     =>  '1980-06-25',
-        'jsonVar'       =>  '["name" => "value"]',
-        'description'   =>  'Test paragraph. Other text',
-        'phone'         =>  '080969012345',
-        'country'       =>  'GB',
-        'postcode'      =>  'AB12 3DE',
+        'first_name'  =>  'John',
+        'last_name'   =>  'Doe',
+        'email'       =>  'john@doe.com',
+        'birthdate'   =>  '1980-06-25',
+        'jsonVar'     =>  '["name" => "value"]',
+        'description' =>  'Test paragraph. Other text',
+        'phone'       =>  '080969012345',
+        'country'     =>  'GB',
+        'postcode'    =>  'AB12 3DE',
     ];
 ```
 It's usage is very similar to Laravel's Validator module, for those who are already familiar with it, although Laravel is not required to use this library.
@@ -77,6 +68,8 @@ The following filters are available out of the box:
  Filter  | Description
 :---------|:----------
  **trim**   | Trims a string
+ **trimmer**   | Trimmers a string
+ **trimmer_textarea**   | Trimmers a textarea string
  **escape**    | Escapes HTML and special chars using php's filter_var
  **lowercase**    | Converts the given string to all lowercase
  **uppercase**    | Converts the given string to all uppercase
@@ -100,15 +93,15 @@ You can add your own filters by passing a custom filter array to the Sanitize co
     }
 
     $customFilters = [
-        'hash'   =>  function($value, $options = []) {
+        'hash' =>  function($value, $options = []) {
                 return sha1($value);
             },
         'remove_strings' => RemoveStringsFilter::class,
     ];
 
     $filters = [
-        'secret'    =>  'hash',
-        'text'      =>  'remove_strings:Curse,Words,Galore',
+        'secret' => 'hash',
+        'text'   => 'remove_strings:Curse,Words,Galore',
     ];
 
     $sanitize = new Sanitize($data, $filters, $customFilters);

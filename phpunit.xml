@@ -14,4 +14,17 @@
             <directory suffix=".php">./tests/</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-html" target="build/html"/>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+        <log type="coverage-text" target="build/coverage.txt"/>
+        <log type="junit" target="build/logfile.junit.xml"/>
+        <log type="testdox-html" target="build/testdox.html"/>
+        <log type="testdox-text" target="build/testdox.txt"/>
+    </logging>
 </phpunit>

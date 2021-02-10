@@ -27,16 +27,18 @@ class Sanitizer
      *  @var array
      */
     protected $filters = [
-        'capitalize'  => \Waavi\Sanitizer\Filters\Capitalize::class,
-        'cast'        => \Waavi\Sanitizer\Filters\Cast::class,
-        'escape'      => \Waavi\Sanitizer\Filters\EscapeHTML::class,
-        'format_date' => \Waavi\Sanitizer\Filters\FormatDate::class,
-        'lowercase'   => \Waavi\Sanitizer\Filters\Lowercase::class,
-        'uppercase'   => \Waavi\Sanitizer\Filters\Uppercase::class,
-        'trim'        => \Waavi\Sanitizer\Filters\Trim::class,
-        'strip_tags'  => \Waavi\Sanitizer\Filters\StripTags::class,
-        'digit'       => \Waavi\Sanitizer\Filters\Digit::class,
-        'filter_if'   => \Waavi\Sanitizer\Filters\FilterIf::class,
+        'capitalize'       => \Waavi\Sanitizer\Filters\Capitalize::class,
+        'cast'             => \Waavi\Sanitizer\Filters\Cast::class,
+        'escape'           => \Waavi\Sanitizer\Filters\EscapeHTML::class,
+        'format_date'      => \Waavi\Sanitizer\Filters\FormatDate::class,
+        'lowercase'        => \Waavi\Sanitizer\Filters\Lowercase::class,
+        'uppercase'        => \Waavi\Sanitizer\Filters\Uppercase::class,
+        'trim'             => \Waavi\Sanitizer\Filters\Trim::class,
+        'trimmer'          => \Waavi\Sanitizer\Filters\Trimmer::class,
+        'trimmer_textarea' => \Waavi\Sanitizer\Filters\TrimmerTextArea::class,
+        'strip_tags'       => \Waavi\Sanitizer\Filters\StripTags::class,
+        'digit'            => \Waavi\Sanitizer\Filters\Digit::class,
+        'filter_if'        => \Waavi\Sanitizer\Filters\FilterIf::class,
     ];
 
     /**
@@ -141,7 +143,7 @@ class Sanitizer
         if ($filter instanceof Closure) {
             return call_user_func_array($filter, [$value, $options]);
         } else {
-            return (new $filter)->apply($value, $options);
+            return (new $filter())->apply($value, $options);
         }
     }
 

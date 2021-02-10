@@ -8,7 +8,7 @@ trait SanitizesInput
      *  Sanitize input before validating.
      *
      *  Kept for backwards compatibility with Laravel <= 5.5
-     *  
+     *
      *  @deprecated Renamed to validateResolved() in Laravel 5.6
      *  @return void
      */

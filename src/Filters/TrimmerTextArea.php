@@ -4,16 +4,16 @@ namespace Waavi\Sanitizer\Filters;
 
 use Waavi\Sanitizer\Contracts\Filter;
 
-class Capitalize implements Filter
+class TrimmerTextArea implements Filter
 {
     /**
-     *  Capitalize the given string.
+     *  Trims the given string.
      *
      *  @param  string  $value
      *  @return string
      */
     public function apply($value, $options = [])
     {
-        return is_string($value) ? mb_convert_case(mb_strtolower($value, 'UTF-8'), MB_CASE_TITLE) : $value;
+        return is_string($value) ? preg_replace('/\h+/', ' ', trim($value)) : $value;
     }
 }
